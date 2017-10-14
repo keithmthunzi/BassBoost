@@ -3,15 +3,13 @@ _gaq = [];
 _gaq.push(['_setAccount', 'UA-89675777-1']);
 _gaq.push(['_trackPageview']);
 
-var isDebugOn = true;
+var isDebugOn = false;
 
 /* This script handles the actual boosting of each individual tab
  * Because the background script runs across all tabs it's also responsible 
  * for remembering the state of each tab and correctly base boosting the
  * right tab etc..
  */
-var website = "http://www.snappyextensions.com";
-var uninstallUrl = 'http://www.snappyextensions.com/uninstall.php';
 
 // stores the state of all tabs
 tabsInfo = {};
@@ -399,19 +397,6 @@ chrome.runtime.onInstalled.addListener(function(){
     chrome.storage.sync.set({'userData': userData});
     
     _gaq.push(['_trackEvent', "Install", "user: "+userId, "installDate: "+installDate]);
-
-    var installUrl = website+"/install.php?userId="+userId+"&installDate="+installDate;
-    
-    if(isDebugOn)
-    {
-        return;
-    }
-    chrome.tabs.create({url : installUrl});
-    // send uninstall to website with params 
-    chrome.runtime.setUninstallURL(uninstallUrl+"?userId="+userId+"&installDate="+installDate, function(){
-        // called when uninstall url is set not when extension is removed
-        
-    });
 });
 function track(category, event, label)
 {
@@ -432,22 +417,6 @@ function track(category, event, label)
             event = "event: "+event +" label: "+label;
         }
         _gaq.push(['_trackEvent', category, event, "userId: "+userId]);
-        
-        /* Disable tracking events in uninstall url (may be causing bugs)
-
-        var eventNo = getLength(userData.events) + 1;
-        userData.events.push({category : category, event : event, date : new Date().getTime()});
-                
-        
-        // We need to save the new data and update the uninstall url to have the most recent events
-        chrome.storage.sync.set({'userData': userData}, function()
-        {
-            var events = JSON.stringify(userData.events);
-            
-            var url = uninstallUrl+"?userId="+userId+"&installDate="+installDate+"&events="+events;
-            setUninstallUrl(url);
-        });
-        */
     });
 }
 function generateUUID(){
@@ -465,32 +434,6 @@ function generateUUID(){
 function getLength(dictionary)
 {
     return Object.keys(dictionary).length
-}
-function setUninstallUrl(url)
-{
-    // setUninstallURL has a max of 255 characters and if we're concatenating 
-    // every event we could easily pass this limit, so we'll have to shorten the url before
-    // passing it to setUninstallUrl
-    gapi.client.setApiKey('AIzaSyBSmxN6Rm6L2pvyVUHXaWJHYlluxbABZR4');
-    gapi.client.load('urlshortener', 'v1', function() { 
-
-        var request = gapi.client.urlshortener.url.insert({
-            'resource': {
-            'longUrl': url
-            }
-        });
-        request.execute(function(response) {
-            if (response.id != null) {
-                // the response will be a much smaller link that we can set as
-                // the uninstall url
-                chrome.runtime.setUninstallURL(response.id);
-            }
-            else {
-                track("Error", "Shortening url: "+url, "error: "+response.error);
-                //alert("Error: creating short url \n" + response.error);
-            }
-        });
-    });
 }
 (function() {
   var ga = document.createElement('script'); 
