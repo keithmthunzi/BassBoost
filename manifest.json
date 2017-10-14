@@ -4,7 +4,7 @@
     "name": "Bass Boost: HD Audio",
     "short_name": "Bass Boost",
     "description": "Bass Boost makes videos, songs, movies and more sound awesome by boosting your speakers or headphones.",
-    "version": "1.6",
+    "version": "1.7",
     
     "permissions" : [
         "tabCapture",

@@ -1,5 +1,5 @@
 
-var shouldAutoBassBoost = true;
+var shouldAutoBassBoost = false;
 var mainContentHTML = "";
 
 var entryQuestionButtonId       = "entryButton";
@@ -12,9 +12,40 @@ var updateChromeButtonId        = "updateChrome"
 var reinstallBassBoostButtonId  = "reinstallBassBoost"
 var testVideoButtonId           = "testVideo"
 
+var crackleButtonId             = "speakerCrackle"
+var noSoundButtonId             = "noSound"
+var videoPlayBackButtonId       = "videoPlayback"
+var chromeResizingButtonId      = "chromeResizing"
+
+var laptopSpeakersButtonId      = "laptopSpeakersCrackle"
+var speakersCrackleButtonId     = "speakersCrackle"
+var headphonesCrackleButtonId   = "headphonesCrackle"
+
+var newLaptopButtonId           = "newLaptop"
+var oldLaptopButtonId           = "oldLaptop"
+
+var tryHeadphonesButtonId       = "tryHeadphones"
+
+var wirelessHeadphonesCrackleButtonId = "wirelessHeadphonesCrackle"
+var wiredHeadphonesCrackleButtonId    = "wiredHeadphonesCrackle"
+
+var tryDefaultButtonId       = "tryDefault"
+
+var updateChromeResizingButtonId = "updateChromeResizing"
+
+var laptopNoSoundButtonId       = "noLaptopSound"
+var speakerNoSoundButtonId      = "noSpeakerSound"
+var headphonesNoSoundButtonId   = "noHeadphoneSound"
+
+var wirelessHeadphonesNoSoundButtonId = "noWirelessHeadphoneSound"
+var wiredHeadphonesNoSoundButtonId    = "noWiredHeadphoneSound"
+
+var tryReenableButtonId = "tryReenable"
 
 var favIconUrl = "";
 var tabTitle = "";
+
+var defaultContentHTML;
 
 (function() {
     var ga = document.createElement('script'); 
@@ -48,18 +79,12 @@ function setDOMInfo(info) {
     if(presetSelected === "Custom")
     {
         $("#bassSliderContainer").show();
-        /*$ancho       = $element.width();
-        $color       = '#bb0000';
-        $valor       = info['customBassGain'];
-        $nuevoancho  = ($valor*$ancho)/40;
-        $('#slider').css({'width':$nuevoancho,'box-shadow':'0 0 '+$valor/2+'px '+$color});*/
     }
 }
 $(document).ready(function() {
     enableSelectBoxes();
     getTheme();
     //addAd();
-    //addGlowToSlider();
     
     chrome.extension.onMessage.addListener(function(message, sender, response) {
         if(message.subject === "No Audio"){
@@ -368,6 +393,7 @@ $(document).ready(function() {
     function setNoAudioFound(){
         var mainContent = document.getElementById("mainContent");
         mainContentHTML = mainContent.innerHTML;
+        defaultContentHTML = mainContentHTML;
 
         setQuestion(0);
     }
@@ -393,7 +419,7 @@ $(document).ready(function() {
         }
     }
     function setQuestion(number){
-                    console.log("setContent");
+        console.log("setContent");
 
         var html = ""
         if(number == 0){
@@ -492,6 +518,255 @@ $(document).ready(function() {
                                     "</div>"
         return tabCapturedQuestion;
     }
+    function setBugReport(id){
+        console.log("setContent");
+
+        var html = ""
+        if(id == 0){
+            defaultContentHTML = document.getElementById("mainContent").innerHTML;
+            html = getEntryBugReport();
+        }
+        else{
+            html = getBugReport(id);
+        }
+        var mainContent = document.getElementById("mainContent");
+        html = "<div style='font-weight: 200; color: #999;'>"+html+"</div>";
+        mainContent.innerHTML = html;
+    }
+    function resetContent(){
+        var mainContent = document.getElementById("mainContent");
+        html = "<div style='font-weight: 200; color: #999;'>"+defaultContentHTML+"</div>";
+        mainContent.innerHTML = html;
+    }
+    function getEntryBugReport(){
+        var reportBugHelp =   "<h3>Sorry that you're having issues</h3>"+
+                                "<h4>We can probably fix it if you tell us more about the problem</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+crackleButtonId+"' type='button' style='width:100%;'>Crackling/Static</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+videoPlayBackButtonId+"' type='button' style='width:100%;'>Video Playback</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+noSoundButtonId+"' type='button' style='width:100%;'>No Sound</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+chromeResizingButtonId+"' type='button' style='width:100%;'>Chrome Resizing</button>"+
+                                "</div>"+
+                                "<h4>If none of the above solve your problem please report this as a bug</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getBugReport(id){
+        if(id == crackleButtonId){
+            return getCrackleReport();
+        }
+        else if(id == laptopSpeakersButtonId){
+            return getLaptopCrackleReport();
+        }
+        else if(id == oldLaptopButtonId){
+            return getOldLaptopCrackleReport();
+        }
+        else if(id == newLaptopButtonId){
+            return getNewLaptopCrackleReport();
+        }
+        else if(id == speakersCrackleButtonId){
+            return getSpeakerCrackleReport();
+        }
+        else if(id == headphonesCrackleButtonId){
+            return getHeadphonesCrackleReport();
+        }
+        else if(id == wiredHeadphonesCrackleButtonId){
+            return getWiredHeadphoneCrackleReport();
+        }
+        else if(id == wirelessHeadphonesCrackleButtonId){
+            return getWirelessHeadphonesCrackleReport();
+        }
+        else if(id == chromeResizingButtonId){
+            return getWindowResizingReport();
+        }
+        else if(id == videoPlayBackButtonId){
+            return getVideoPlaybackReport();
+        }
+        else if(id == noSoundButtonId){
+            return getNoSoundReport();
+        }
+        else if(id == laptopNoSoundButtonId){
+            return getNoLaptopSoundReport();
+        }
+        else if(id == speakerNoSoundButtonId){
+            return getNoSpeakersSoundReport();
+        }
+        else if(id == headphonesNoSoundButtonId){
+            return getNoHeadphonesSoundReport();
+        }
+        else if(id == wirelessHeadphonesNoSoundButtonId){
+            return getWirelessHeadphonesNoSoundReport();
+        }
+        else if(id == wiredHeadphonesNoSoundButtonId){
+            return getWiredHeadphonesNoSoundReport();
+        }
+    }
+    function getCrackleReport(){
+        var reportBugHelp =   "<h3>How are you listening to the audio?</h3>"+
+                                "<h4If you don't have headphones try using the 'Custom' Bass Boost setting. This option allows you to set the exact level of Bass you want. Start by setting it to 1 and If this works fine try increasing it bit by bit until you notice crackling. You will have to use this as your max Bass Boost level going forward as your speakers may not be able to </h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+laptopSpeakersButtonId+"' type='button' style='width:100%;'>Laptop</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+speakersCrackleButtonId+"' type='button' style='width:100%;'>Speakers</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+headphonesCrackleButtonId+"' type='button' style='width:100%;'>Headphones</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getLaptopCrackleReport(){
+        var reportBugHelp =   "<h4>When did you buy your laptop?</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+newLaptopButtonId+"' type='button' style='width:100%;'>less than 3 years ago</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+oldLaptopButtonId+"' type='button' style='width:100%;'>over 3 years ago</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+     function getOldLaptopCrackleReport(){
+        var reportBugHelp =   "<h4>Older laptops tend to have problems with higher bass. Try use headphones and see if the crackling disappears</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+tryHeadphonesButtonId+"' type='button' style='width:100%;'>Try headphones</button>"+
+                                "</div>"+
+                                "<h4>If you don't have headphones try using the 'Custom' Bass Boost setting. This option allows you to set the exact level of Bass you want. Start by setting it to 1 and If this works fine try increasing it bit by bit until you notice the crackling. You will have to use this as your max Bass Boost level going forward as your speakers may not be able to handle anything higher</h4>"+
+                                "<h4>If this doesn't fix your problem please report this as a bug, please include the make and model of your laptop</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getNewLaptopCrackleReport(){
+        var reportBugHelp =   "<h3>Hmm, very strange</h3>"+
+                                "<h4>Please report this as a bug along with the make and model of your laptop, in the meantime use headphones if you have any</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getSpeakerCrackleReport(){
+        var reportBugHelp =   "<h3>Hmm, very strange</h3>"+
+                                "<h4>Please report this as a bug along with the make and model of your speakers, in the meantime use headphones if you have any</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getHeadphonesCrackleReport(){
+        var reportBugHelp =   "<h3>What type of headphones are you using?</h3>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+wirelessHeadphonesCrackleButtonId+"' type='button' style='width:100%;'>Wireless</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+wiredHeadphonesCrackleButtonId+"' type='button' style='width:100%;'>Wired</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getWirelessHeadphonesCrackleReport(){
+        var reportBugHelp =   "<h3>A few users have reported that Apple AirPods seem to crackle on any setting above Default,</h3>"+
+                                "<h4>if you are using Airpods please set Bass Boost to default.</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+tryDefaultButtonId+"' type='button' style='width:100%;'>Try Default</button>"+
+                                "</div>"+
+                                "<h4>If not please report this as a bug along with the make and model of your headphones</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getWiredHeadphoneCrackleReport(){
+        var reportBugHelp =     "<h4>Please report this as a bug along with the make and model of your headphones</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getWindowResizingReport(){
+        var reportBugHelp =     "<h4>Unfortunately this is caused by a bug in chrome. Please make sure you are on the latest version of chrome so that you can get the                              fix if one is released</h4>"+   
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+updateChromeResizingButtonId+"' type='button' style='width:100%;'>Update Chrome</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getVideoPlaybackReport(){
+        var reportBugHelp =   "<h3>This can happen if you have a lot of tabs / programs open.</h3>"+
+                                "<h4>Try closing a few tabs / programs for better performance</h4>"+
+                                "<h4>If this doesn't fix it please report this as a bug along with the make and model of your computer</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getNoSoundReport(){
+        var reportBugHelp =   "<h3>How are you listening to the audio?</h3>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+laptopNoSoundButtonId+"' type='button' style='width:100%;'>Laptop</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+speakerNoSoundButtonId+"' type='button' style='width:100%;'>Speakers</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+headphonesNoSoundButtonId+"' type='button' style='width:100%;'>Headphones</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getNoLaptopSoundReport(){
+        var reportBugHelp =   "<h3>Some laptops can have problems with higher bass. Try use headphones and see if the sound works</h3>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+tryHeadphonesButtonId+"' type='button' style='width:100%;'>Try headphones</button>"+
+                                "</div>"+
+                                "<h4>If not please report this as a bug along with the make and model of your laptop</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getNoSpeakersSoundReport(){
+        var reportBugHelp =     "<h3>Hmm, very strange</h3>"+
+                                "<h4>Please report this as a bug along with the make and model of your speakers, in the meantime use headphones if you have any</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getNoHeadphonesSoundReport(){
+        var reportBugHelp =     "<h3>What type of headphones are you using?</h3>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+wirelessHeadphonesNoSoundButtonId+"' type='button' style='width:100%;'>Wireless</button>"+
+                                "</div>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+wiredHeadphonesNoSoundButtonId+"' type='button' style='width:100%;'>Wired</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+    function getWirelessHeadphonesNoSoundReport(){
+        var reportBugHelp =     "<h3>A few users have reported that they sometimes have to turn off Bass Boost and turn it back on again when their computer goes to                             sleep</h3>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='"+tryReenableButtonId+"' type='button' style='width:100%;'>Turn on/off</button>"+
+                                "</div>"+
+                                "<h4>If this does not work for you please reinstall Bass Boost and report this as a bug. Please include the make and mode lof your headphones</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+        return reportBugHelp;
+    }
+     function getWiredHeadphonesNoSoundReport(){
+        var reportBugHelp =    "<h4>Please reinstall Bass Boost and report this as a bug. Please include the make and mode lof your headphones</h4>"+
+                                "<div style='margin: 0 auto; width:  80%'>"+
+                                    "<button id='reportBug' type='button' style='width:100%;'>Report Bug</button>"+
+                                "</div>";
+         
+        return reportBugHelp;
+    }
     // makes hyperlinks work i npopup.html
     window.addEventListener('click', function(e)
     {
@@ -508,6 +783,97 @@ $(document).ready(function() {
             track("Link Clicked", "Leave a Review");
             chrome.tabs.create({url: url});
         }
+        
+        /** Report A bug **/
+        if(e.target.id === "debug")
+        {
+            setBugReport(0);
+            track("Fix Bug", "Wizard Started");
+        }
+        else if(e.target.id === crackleButtonId){
+            track("Fix Bug", "Crackling");
+            setBugReport(crackleButtonId);
+        }
+        else if(e.target.id === laptopSpeakersButtonId){
+            track("Fix Bug", "Crackling", "Laptop");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === speakersCrackleButtonId){
+            track("Fix Bug", "Crackling", "Speaker");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === headphonesCrackleButtonId){
+            track("Fix Bug", "Crackling", "Headphones");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === wirelessHeadphonesCrackleButtonId){
+            track("Fix Bug", "Crackling", "Wireless Headphones");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === wiredHeadphonesCrackleButtonId){
+            track("Fix Bug", "Crackling", "Wired Headphones");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === tryDefaultButtonId){
+            track("Fix Bug", "Crackling", "Wireless Headphones - Try Default");
+            resetContent();
+        }
+        
+        else if(e.target.id === newLaptopButtonId){
+            track("Fix Bug", "New Laptop Crackling");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === oldLaptopButtonId){
+            track("Fix Bug", "Old Laptop Crackling");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === tryHeadphonesButtonId){
+            track("Fix Bug", "Try Headphones");
+            resetContent();
+        }
+        else if(e.target.id === noSoundButtonId){
+            track("Fix Bug", "No Sound");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === laptopNoSoundButtonId){
+            track("Fix Bug", "No Sound", "Laptop");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === speakerNoSoundButtonId){
+            track("Fix Bug", "No Sound", "Speaker");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === headphonesNoSoundButtonId){
+            track("Fix Bug", "No Sound", "Headphones");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === wirelessHeadphonesNoSoundButtonId){
+            track("Fix Bug", "No Sound", "Wireless Headphones");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === wiredHeadphonesNoSoundButtonId){
+            track("Fix Bug", "No Sound", "Wired Headphones");
+            setBugReport(e.target.id);
+        }
+         else if(e.target.id === tryReenableButtonId){
+            track("Fix Bug", "No Sound", "Re-enable");
+            resetContent();
+        }
+
+        else if(e.target.id === chromeResizingButtonId){
+            track("Fix Bug", "Window Resizing");
+            setBugReport(e.target.id);
+        }
+        else if(e.target.id === updateChromeResizingButtonId){
+            track("Fix Bug", "Window Resizing", "Update Chrome");
+            chrome.tabs.create({url: "chrome://help/"});
+        }
+        else if(e.target.id === videoPlayBackButtonId){
+            track("Fix Bug", "Video Playback");
+            setBugReport(e.target.id);
+        }
+        
+        /** Other Extensions is preventing tabCapture **/
         else if(e.target.id === 'entryQuestionButton'){
             track("Fix No Audio", "Wizard Started");
             setQuestion(1);

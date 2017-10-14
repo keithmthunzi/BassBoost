@@ -3,7 +3,7 @@ _gaq = [];
 _gaq.push(['_setAccount', 'UA-89675777-1']);
 _gaq.push(['_trackPageview']);
 
-var isDebugOn = false;
+var isDebugOn = true;
 
 /* This script handles the actual boosting of each individual tab
  * Because the background script runs across all tabs it's also responsible 
