@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="popup.css">
+        <link rel="stylesheet" type="text/css" href="select.css">
+
+        <script src="jquery.js"></script>
+        <!-- 
+        <script src="platform.js"></script>
+        <script src="getads.js"></script> 
+        -->
+        <script src="popup.js"></script>
+    </head>
+    <body style="width: 200px; overflow-x: hidden; background-color: rgba(200,200,200,0.3);">
+        <h1 style="color: #bb0000;">Bass Boost</h1>
+        <hr style="background-color: #bb0000; height: 1px; border: 0;">
+        
+        <div id= "mainContent">
+            <img id="favIcon" height="25px" width="25px" style="float:left">
+            <h3 id="tabTitle" style="float:left; margin: 4px; margin-left: 5%; max-height: 25px; max-width:160px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Tab Title</h3>
+
+            <div style="clear: both; margin-bottom: 5px"></div>
+
+            <hr style="background-color: #bb0000; height: 1px; border: 0; margin-bottom: 8%;">
+
+            <h3 id="boostEnabledTitle" style="float: left; margin-top: 2px; color: #999">Bass Boost this Tab</h3>
+            <div style="float: right">
+                <input type='checkbox' class='ios8-switch' id='bassBoostCheckbox' style="float: right; overflow: hidden; width: 40px; margin-left: 10px;" >
+                <label for='bassBoostCheckbox' style="float: right"></label>
+            </div>
+
+            <div style="clear: both; margin-bottom: 6px"></div>
+
+           <div class='selectBox' style="z-index:5;">
+                <input type="hidden" value="Music" class="presetSelected"/>
+                <span class='selected'></span>
+                <span class='selectArrow'>&#9660</span>
+                <ul class="selectOptions" >
+                    <li class="selectOption" data-value="value Music">Default</li>
+                    <li class="selectOption" data-value="value Movie">High</li>
+                    <li class="selectOption" data-value="value Gameplay">Very High</li>
+                    <li class="selectOption" data-value="value Talking">Insane</li>
+                    <li class="selectOption" data-value="value Talking">Custom</li>
+                    <li class="selectOption" data-value="value Talking">Chipmunks</li>
+                </ul>
+            </div>
+
+            <div id="bassSliderContainer" hidden>
+               <div class="wrap">
+                <input type="range" id="bassSlider" style="float: left; margin-top: 16px; margin-bottom: 0px; width:175px;" value="5" min="0" max="40">
+                </div>
+                <h2 id="bassSliderValue" style="float: right; color: #999; margin-bottom: 0px; ">5</h2>
+
+            </div>
+
+
+            <div style="clear: both;"></div>
+
+
+            <button style="margin-top: 16px; margin-bottom: 0px" id="reportBug" type="button">Report a Bug</button>
+            <button style="margin-top: 8px;" id="leaveReview" type="button">Leave a Review</button>
+
+
+            <div id="shareButtons" style="margin: 0 auto; margin-top: 5%;">
+                <iframe id="googleShareButton" ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 90px; margin: 0px; border-style: none; left: 0px; height: 20px;" tabindex="0" vspace="0" width="100%" id="I0_1486287797067" name="I0_1486287797067" src="https://apis.google.com/u/0/se/0/_/+1/fastbutton?usegapi=1&amp;size=medium&amp;annotation=bubble&amp;align=right&amp;hl=en&amp;origin=https%3A%2F%2Fchrome.google.com&amp;url=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fbass-boost-hd-audio%2Fmghabdfikjldejcdcmclcmpcmknjahli&amp;gsrc=3p&amp;jsh=m%3B%2F_%2Fscs%2Fapps-static%2F_%2Fjs%2Fk%3Doz.gapi.en.vBjXDe7ZoNI.O%2Fm%3D__features__%2Fam%3DAQ%2Frt%3Dj%2Fd%3D1%2Frs%3DAGLTcCNOBfYN7LbE5_F1Njis-ms2HRrd8A#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh&amp;id=I0_1486287797067&amp;parent=chrome-extension://lkdjfceimmdbikmnbnabmlajeehcpdah&amp;pfname=&amp;rpctoken=16646667" data-gapiattached="true" title="+1"></iframe>
+
+                <iframe id="facebookShareButton" src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fbass-boost-hd-audio%2Fmghabdfikjldejcdcmclcmpcmknjahli%3Fhl%3Den&layout=button_count&size=small&mobile_iframe=false&width=69&height=20&appId" width="90" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>
+            </div>
+
+            <h3 align="center" style="margin-bottom: 4px; color: #bb0000;">Support Us</h3>
+
+            <hr style="background-color: #bb0000; height: 1px; border: 0; margin-top: 8px; margin-bottom: 8px;">
+
+            <h3 align="center" style="font-family: light; color: #999; margin-top: 0;">If we've changed the way you listen to music/videos online please consider a small donation. Bass Boost is free to use but can only stay free thanks to your generous donations.</h3>
+
+            <a id="paypal" style="display:block; text-align: center; margin-top: 5%; margin-bottom: 5%;" target='_blank' href='https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=2GPKBA3EBZPHC'>
+              <image src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0"/>
+              <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </a>   
+        </div>        
+        <hr style="background-color: #bb0000; height: 1px; border: 0; margin-top: 8px; margin-bottom: 16px;">
+
+        <!--
+        <div id="adContainer" style = "padding-bottom: 8px; margin-top: 8px;" hidden>
+            <h4 align="center" style="margin-bottom: 4px; color: #bb0000" title="Bass Boost does not inject ads into any website you visit, however we may display ads in this popup. These ads do not interfere with the experience of using Bass Boost as they are located below the main setting area and so may be completely ignored. We serve these ads to ensure Bass Boost can remain free for our users. ">Advertisement</h4>
+            <hr style="background-color: #bb0000; height: 1px; border: 0; margin-bottom: 4%;">
+            <div id="ad">
+            </div>
+            <hr style="background-color: #bb0000; height: 1px; border: 0; margin-top: 4%;">
+        </div> -->
+        
+        <span class="segmented" style="margin-bottom: 0px">
+            <label><input type="radio" name="os" value="light" id="lightSegment" checked><span class="label">Light</span></label>
+            <label><input type="radio" name="os" value="dark"  id="darkSegment"><span class="label">Dark</span></label>
+        </span>
+
+    </body>
+</html>
